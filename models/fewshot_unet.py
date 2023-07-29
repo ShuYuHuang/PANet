@@ -93,6 +93,7 @@ class FewShotSeg(nn.Module):
 
             ###### Compute the distance ######
             prototypes = [bg_prototype,] + fg_prototypes
+            # prototype order: bg,way1,way2,...
             dist = [self.calDist(qry_fts[:, epi], prototype) for prototype in prototypes]
             pred = torch.stack(dist, dim=1)  # N x (1 + Wa) x H' x W'
             outputs.append(F.interpolate(pred, size=img_size, mode='bilinear'))
